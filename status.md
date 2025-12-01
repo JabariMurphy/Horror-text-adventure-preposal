@@ -2,15 +2,15 @@
 
 #### Your name
 
-TODO
+Jabari Murphy
 
 #### Your section leader's name
 
-TODO
+Jabari Murphy
 
 #### Project title
 
-TODO
+Bad Landing
 
 ***
 
@@ -18,12 +18,12 @@ Short answers for the below questions suffice. If you want to alter your plan fo
 
 #### What have you done for your project so far?
 
-TODO
+I've written a script in a word doc and I've begun to learn how to create what I want using pygame
 
 #### What have you not done for your project yet?
 
-TODO
+I have not yet completed the dirst plyable version of the game.
 
 #### What problems, if any, have you encountered?
 
-TODO
+I'm struggling with finding what to use to create spooky foreign world atmosphere.
