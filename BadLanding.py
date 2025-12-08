@@ -19,23 +19,21 @@ def Tutorial():
           all of the possible commands so get creative. Have Fun!"""
 
 
-#def commands(command):
-    #if command.lower() == 'tutorial':
-        
+def commands(command):
+    
+    if command.lower() == 'tutorial':
+        print(tutorial)
+
 def gamestart(screen):
-    clock.tick_busy_loop(60)
     screen.fill('Black')
-    ellipse = (pygame.draw.ellipse(screen,(0,0,139),(0,350,600,50),0))
-    pygame.draw.rect(screen,(1,50,32),(300,0,100,200))
     pygame.display.flip()
     pygame.key.start_text_input()
     input_active = True
     user_text = ""
     input_color = (255,255,255)
-    bg_color = 'Black'
     input_rect = pygame.Rect(50, 360, 500, 35)
-    screen.fill(bg_color)
     pygame.draw.ellipse(screen,(0,0,139),(0,350,600,50),0)
+    pygame.draw.rect(screen,(1,50,32),(400,0,200,200),0)
     pygame.display.flip()
 
     while input_active:
@@ -53,12 +51,15 @@ def gamestart(screen):
                 else:
                     user_text += event.unicode
 
-        screen.fill(bg_color)
+       
         pygame.draw.ellipse(screen,(0,0,139),(0,350,600,50),0)
 
         text_surface = font.render(user_text, True, input_color)
         screen.blit(text_surface, (input_rect.x+5, input_rect.y+5))
         pygame.draw.rect(screen, input_color, input_rect, 2)
+        briefing = "Message Transcript from Admiral Kent: Today marks the beginning of a new dawn of the humanempire. The United Navy has discovered a new habitable planet and your team will be the first to touchdown. The main objective is recon and research. Good Luck marine!"
+        bef = font.render(briefing,True,(255,255,255))
+        screen.blit(bef,(0,400))
         pygame.display.flip()
 
     
