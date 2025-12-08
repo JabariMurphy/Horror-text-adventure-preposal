@@ -14,25 +14,54 @@ font = pygame.font.Font(None,size=35)
 titlefont = pygame.font.Font(None,size=50)
 
 def Tutorial():
-    print("""This game plays like a classic text adventure and will respond
+    tutorial = """This game plays like a classic text adventure and will respond
           to basic commands such as look, check, and use. These are not
-          all of the possible commands so get creative. Have Fun!""")
+          all of the possible commands so get creative. Have Fun!"""
 
 
-def gamestart():
-    screen.fill('Black')
-    pygame.draw.ellipse(screen,(0,0,139),(0,350,600,50),0)
-    running = True
-    while running:
-        for ev in pygame.event.get():
-            if ev.type == pygame.TEXTINPUT:
-                inputtext = font.render(pygame.event.get(pygame.TEXTINPUT),True,white)
-                screen.blit(inputtext,(50,375))
+#def commands(command):
+    #if command.lower() == 'tutorial':
         
-        pygame.display.flip()
+def gamestart(screen):
+    screen.fill('Black')
+    ellipse = (pygame.draw.ellipse(screen,(0,0,139),(0,350,600,50),0))
+    pygame.draw.rect(screen,(1,50,32),(450,0,100,200))
+    pygame.key.start_text_input()
+    input_active = True
+    user_text = ""
+    input_color = (255,255,255)
+    bg_color = 'Black'
+    input_rect = pygame.Rect(50, 360, 500, 35)
+    
+    screen.fill(bg_color)
+    pygame.draw.ellipse(screen,(0,0,139),(0,350,600,50),0)
+    pygame.display.flip()
+
+    while input_active:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                pygame.quit()
+            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    command = user_text
+                    commands(command)
+                    user_text = ""  
+                elif event.key == pygame.K_BACKSPACE:
+                    user_text = user_text[:-1]
+                else:
+                    user_text += event.unicode
+
+        screen.fill(bg_color)
+        pygame.draw.ellipse(screen,(0,0,139),(0,350,600,50),0)
+
+        text_surface = font.render(user_text, True, input_color)
+        screen.blit(text_surface, (input_rect.x+5, input_rect.y+5))
+        pygame.draw.rect(screen, input_color, input_rect, 2)
+        pygame.display.flip()
+
+    
+        
 def mainmenu():
     startscreenbackground = pygame.image.load('menubackground.png')
     screen = pygame.display.set_mode((600,400),0,0,0,0)
@@ -60,7 +89,7 @@ def mainmenu():
             if ev.type == pygame.MOUSEBUTTONDOWN:
                 mousepos = pygame.mouse.get_pos()
                 if 225 <= mousepos[0] <= 375 and 150 <= mousepos[1] <= 200:
-                    gamestart()
+                    gamestart(screen)
     pygame.display.flip()
     
 mainmenu()
