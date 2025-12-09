@@ -11,19 +11,43 @@ pygame.display.flip()
 clock = pygame.time.Clock()
 
 font = pygame.font.Font(None,size=35)
+litolfont = pygame.font.Font(None, size=20)
 titlefont = pygame.font.Font(None,size=50)
+#places
+ship = "The ship is toast and there's no sign of your team not even a sign of struggle. There is a bioscanner and a small unloaded pistol in its holster attached to the pilots seat"
+woodsleft = "The forest has a slight humm it appears to be living in more and different ways than you can comprehend"
+print("This game plays like a classic text adventure and will respond to basic commands such as check, and use. These are not all of the possible commands so get creative. Have Fun!")
 
-def Tutorial():
-    tutorial = """This game plays like a classic text adventure and will respond
-          to basic commands such as look, check, and use. These are not
-          all of the possible commands so get creative. Have Fun!"""
-
-
+replacementrect = (50,360,500,35)
+def clear_screen():
+    screen.fill('Black')
+    pygame.display.flip()
+    input_color = (255,255,255)
+    input_rect = pygame.Rect(50, 360, 500, 35)
+    text_surface = font.render('', True, input_color)
+    screen.blit(text_surface, (input_rect.x+5, input_rect.y+5))
+    pygame.draw.ellipse(screen,(0,0,139),(0,350,600,50),0)
+    pygame.draw.rect(screen,(1,50,32),(400,0,200,200),0)
+    pygame.display.flip()
 def commands(command):
+    clearscreen()
     
-    if command.lower() == 'tutorial':
-        print(tutorial)
-
+    command = command.lower()
+    command.split()
+    if command[0:10] == 'look ship' or command[0:10] == 'check ship':
+        input_rect = pygame.Rect(50, 360, 500, 35)
+        ship1 = font.render("The ship is toast and there's no sign of your team not even a sign of struggle.",True,(255,255,255))
+        ship2 = font.render("There is a bioscanner and a small unloaded pistol in its holster attached to the pilots seat",True,(255,255,255))
+        screen.blit(ship1,(50,360))
+        pygame.display.flip()
+        pygame.time.delay(3000)
+        ship1.fill(color(0,0,0,0))
+        screen.blit(ship2,(50,360))
+        pygame.display.flip()
+        pygame.time.delay(3000)
+        ship2.fill(color(0,0,0,0))
+        gamestart(screen)
+        return user_text
 def gamestart(screen):
     screen.fill('Black')
     pygame.display.flip()
@@ -35,7 +59,37 @@ def gamestart(screen):
     pygame.draw.ellipse(screen,(0,0,139),(0,350,600,50),0)
     pygame.draw.rect(screen,(1,50,32),(400,0,200,200),0)
     pygame.display.flip()
-
+    currentplace = ship
+    bline1 = litolfont.render("Message from Admiral Kent:",True,(255,255,255))
+    bline2 = litolfont.render("Today marks the beginning",True,(255,255,255))
+    bline3 = litolfont.render("of a new dawn of the human ",True,(255,255,255))
+    bline4 = litolfont.render("empire.The United Navy has",True,(255,255,255))
+    bline5 = litolfont.render("discovered a new habitable",True,(255,255,255))
+    bline6 = litolfont.render("planet and your team will",True,(255,255,255))
+    bline7 = litolfont.render("be the first to touchdown.",True,(255,255,255))
+    bline8 = litolfont.render("The main objective is recon",True,(255,255,255))
+    bline9 = litolfont.render("Good Luck marine!",True,(255,255,255))
+    screen.blit(bline1,(400,0))
+    pygame.display.flip()
+    screen.blit(bline2,(400,10))
+    pygame.display.flip()
+    screen.blit(bline3,(400,20))
+    pygame.display.flip()
+    screen.blit(bline4,(400,30))
+    pygame.display.flip()
+    screen.blit(bline5,(400,40))
+    pygame.display.flip()
+    screen.blit(bline6,(400,50))
+    pygame.display.flip()
+    screen.blit(bline7,(400,60))
+    pygame.display.flip()
+    screen.blit(bline8,(400,70))
+    pygame.display.flip()
+    screen.blit(bline9,(400,80))
+    pygame.display.flip()
+    pygame.time.delay(10000)
+    pygame.draw.rect(screen,(1,50,32),(400,0,200,200),0)
+    
     while input_active:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -44,8 +98,8 @@ def gamestart(screen):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     command = user_text
-                    commands(command)
                     user_text = ""
+                    commands(command)
                 elif event.key == pygame.K_BACKSPACE:
                     user_text = user_text[:-1]
                 else:
@@ -57,10 +111,8 @@ def gamestart(screen):
         text_surface = font.render(user_text, True, input_color)
         screen.blit(text_surface, (input_rect.x+5, input_rect.y+5))
         pygame.draw.rect(screen, input_color, input_rect, 2)
-        briefing = "Message Transcript from Admiral Kent: Today marks the beginning of a new dawn of the humanempire. The United Navy has discovered a new habitable planet and your team will be the first to touchdown. The main objective is recon and research. Good Luck marine!"
-        bef = font.render(briefing,True,(255,255,255))
-        screen.blit(bef,(0,400))
-        pygame.display.flip()
+    
+    return currentplace
 
     
         
