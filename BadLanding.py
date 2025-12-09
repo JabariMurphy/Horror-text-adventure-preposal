@@ -29,36 +29,48 @@ def clear_screen():
     pygame.draw.ellipse(screen,(0,0,139),(0,350,600,50),0)
     pygame.draw.rect(screen,(1,50,32),(400,0,200,200),0)
     pygame.display.flip()
-def commands(command):
-    clearscreen()
+def commands(command,currentplace):
+    clear_screen()
     
     command = command.lower()
     command.split()
     if command[0:10] == 'look ship' or command[0:10] == 'check ship':
         input_rect = pygame.Rect(50, 360, 500, 35)
-        ship1 = font.render("The ship is toast and there's no sign of your team not even a sign of struggle.",True,(255,255,255))
-        ship2 = font.render("There is a bioscanner and a small unloaded pistol in its holster attached to the pilots seat",True,(255,255,255))
+        ship1 = font.render("The ship is toast and there's no sign of your",True,(255,255,255))
+        ship2 = font.render("team not even a sign of struggle.",True,(255,255,255))
+        ship3 = font.render("There is a bioscanner and a small unloaded",True,(255,255,255))
+        ship4 = font.render("pistol in its holster attached to the pilots seat",True,(255,255,255))
         screen.blit(ship1,(50,360))
         pygame.display.flip()
         pygame.time.delay(3000)
-        ship1.fill(color(0,0,0,0))
+        clear_screen()
         screen.blit(ship2,(50,360))
         pygame.display.flip()
         pygame.time.delay(3000)
-        ship2.fill(color(0,0,0,0))
-        gamestart(screen)
-        return user_text
+        clear_screen()
+        screen.blit(ship3,(50,360))
+        pygame.display.flip()
+        pygame.time.delay(3000)
+        clear_screen()
+        screen.blit(ship4,(50,360))
+        pygame.display.flip()
+        pygame.time.delay(3000)
+        clear_screen()
+       
+    if command == 'take' or command == 'add to inventory':
+        if currentplace == ship:
+            take1 = font.render("bioscanner and empty pistol added to inventory",True,(255,255,255))
+            screen.blit(take1,(50,360))
+            pygame.display.flip()
+            pygame.time.delay(3000)
+        
 def gamestart(screen):
     screen.fill('Black')
-    pygame.display.flip()
-    pygame.key.start_text_input()
-    input_active = True
-    user_text = ""
     input_color = (255,255,255)
     input_rect = pygame.Rect(50, 360, 500, 35)
     pygame.draw.ellipse(screen,(0,0,139),(0,350,600,50),0)
     pygame.draw.rect(screen,(1,50,32),(400,0,200,200),0)
-    pygame.display.flip()
+
     currentplace = ship
     bline1 = litolfont.render("Message from Admiral Kent:",True,(255,255,255))
     bline2 = litolfont.render("Today marks the beginning",True,(255,255,255))
@@ -69,49 +81,43 @@ def gamestart(screen):
     bline7 = litolfont.render("be the first to touchdown.",True,(255,255,255))
     bline8 = litolfont.render("The main objective is recon",True,(255,255,255))
     bline9 = litolfont.render("Good Luck marine!",True,(255,255,255))
-    screen.blit(bline1,(400,0))
+    lines = [bline1, bline2, bline3, bline4, bline5, bline6, bline7, bline8, bline9]
+    y = 0
+    for line in lines:
+        screen.blit(line, (400, y))
+        y += 10
     pygame.display.flip()
-    screen.blit(bline2,(400,10))
-    pygame.display.flip()
-    screen.blit(bline3,(400,20))
-    pygame.display.flip()
-    screen.blit(bline4,(400,30))
-    pygame.display.flip()
-    screen.blit(bline5,(400,40))
-    pygame.display.flip()
-    screen.blit(bline6,(400,50))
-    pygame.display.flip()
-    screen.blit(bline7,(400,60))
-    pygame.display.flip()
-    screen.blit(bline8,(400,70))
-    pygame.display.flip()
-    screen.blit(bline9,(400,80))
-    pygame.display.flip()
-    pygame.time.delay(10000)
-    pygame.draw.rect(screen,(1,50,32),(400,0,200,200),0)
-    
+    pygame.time.delay(10000)  
+
+    # Begin input loop
+    input_active = True
+    user_text = ""
     while input_active:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-            
+                input_active = False
+                break
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
-                    command = user_text
-                    user_text = ""
-                    commands(command)
+                    commands(user_text,currentplace)
+                    user_text = ""  # Clear text after submitting
                 elif event.key == pygame.K_BACKSPACE:
                     user_text = user_text[:-1]
                 else:
-                    user_text += event.unicode
+                    # Ensure only printable characters
+                    if event.unicode.isprintable():
+                        user_text += event.unicode
 
-       
+        # Redraw everything
+        screen.fill('Black')
         pygame.draw.ellipse(screen,(0,0,139),(0,350,600,50),0)
-
+        pygame.draw.rect(screen,(1,50,32),(400,0,200,200),0)
         text_surface = font.render(user_text, True, input_color)
         screen.blit(text_surface, (input_rect.x+5, input_rect.y+5))
         pygame.draw.rect(screen, input_color, input_rect, 2)
-    
+        pygame.display.flip()
+
     return currentplace
 
     
